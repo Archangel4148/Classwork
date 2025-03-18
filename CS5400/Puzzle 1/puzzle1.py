@@ -1,4 +1,5 @@
 import random
+import sys
 
 
 class ToadGame:
@@ -124,6 +125,15 @@ def generate_plan(states: list[str], plan_length: int, starting_health: int, sta
 
 
 if __name__ == '__main__':
+    if len(sys.argv) == 3:
+        input_file = sys.argv[1]
+        output_file = sys.argv[2]
+    else:
+        # Default paths (none provided)
+        print("No filenames provided, using \'input.txt\' and \'output.txt\'...")
+        input_file = "input.txt"
+        output_file = "output.txt"
+
     # Read the game state stuff from the input file
     with open("input.txt", "r") as f:
         input_data = f.readlines()
