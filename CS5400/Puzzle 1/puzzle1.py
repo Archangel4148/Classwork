@@ -1,12 +1,14 @@
+import random
+
+
 class ToadGame:
-    def __init__(self, rolls: list[int], moves: str, health: int, starting_position: int = 3):
+    def __init__(self, rolls: list[int], health: int, starting_position: int = 3):
         self.rolls = rolls
-        self.moves = moves
         self.health = health
 
         # Set up initial grid
         self.grid = ["#     #"] * 5
-        self.grid[-1] = self.grid[-1][:starting_position] + "T" + self.grid[4][(starting_position + 1):]
+        self.grid[-1] = self.grid[-1][:starting_position] + "T" + self.grid[-1][(starting_position + 1):]
 
         # Parse states into grid rows
         self.states = [self.state_from_roll(roll) for roll in rolls]
@@ -55,16 +57,19 @@ class ToadGame:
         if self.grid[-1][toad_pos] not in (" ", "T"):
             death = True
             toad_symbol = "X"
+        # Detect if a fly moved next to the toad
+        if not death and (self.grid[-1][-1] == "F" and toad_pos == 5 or self.grid[-1][0] == "F" and toad_pos == 1):
+            self.health += 5
         self.grid[-1] = f"#{' ' * (toad_pos - 1)}{toad_symbol}{' ' * (5 - toad_pos)}#"
 
         return death
 
-    def play_game(self, max_length: int):
+    def play_game(self, max_length: int, moves: str, result_filename: str = "output.txt"):
         round = 0
         while self.health > 0 and round < max_length:
             # Phase 1 - Toad moves
-            print("MOVE:", self.moves[round])
-            self.move_toad(self.moves[round])
+            print("MOVE:", moves[round])
+            self.move_toad(moves[round])
             # Phase 2/3/4 - Spawn new row (also moves snakes/flies)
             snake_death = self.shift_grid(self.states[round])
             if snake_death:
@@ -79,32 +84,64 @@ class ToadGame:
             round += 1
         print("You made it all", round, "rounds!")
 
-    def output_to_file(self, file_name: str):
+        self.output_to_file(result_filename, moves)
+
+    def output_to_file(self, file_name: str, moves: str):
         with open(file_name, "w") as f:
-            f.write(self.moves + "\n")
+            f.write(moves + "\n")
             f.write(str(self.health) + "\n")
             for row in self.grid:
                 f.write(row + "\n")
 
 
+def generate_plan(states: list[str], plan_length: int, starting_health: int, starting_position: int = 3) -> str:
+    """
+    Generate a plan (string of moves) based on the game state
+    (For now, this just generates a random series of moves that don't kill the toad or take it out of bounds)
+    """
+    toad_pos = starting_position
+    health = starting_health
+
+    # Cost/distance info for accurate "planning"
+    move_distances = {"A": -2, "S": -1, "D": 0, "F": 1, "G": 2}
+    health_costs = {"A": 3, "S": 1, "D": 0, "F": 1, "G": 3}
+    plan = ""
+
+    for i in range(plan_length):
+        # Get a list of valid moves based on each move's health cost and travel distance
+        valid_moves = [
+            letter for letter, travel in move_distances.items()
+            if 1 <= toad_pos + travel <= 5 and health - health_costs[letter] > 0
+        ]
+        # Randomly select a valid move
+        letter = random.choice(valid_moves)
+        travel_distance = move_distances[letter]
+        # Update the toad's calculated position/health, and update the plan
+        toad_pos += travel_distance
+        plan += letter
+        health -= health_costs[letter]
+    return plan
+
+
 if __name__ == '__main__':
-    # Read the game state information from the input file
+    # Read the game state stuff from the input file
     with open("input.txt", "r") as f:
         input_data = f.readlines()
     num_rounds = int(input_data[0].strip())
     rolls = [int(d.strip()) for d in input_data[1:]]
 
-    # Give the move plan
-    moves = "FFSSSSFSFF"
+    # Create a move plan
+    states = [ToadGame.state_from_roll(roll) for roll in rolls]
+    moves = generate_plan(states, num_rounds, 20)
 
     # Create a toad game object
-    game = ToadGame(rolls, moves, 20)
+    game = ToadGame(rolls, 20)
 
     # Run the game and print the results
-    game.play_game(num_rounds)
+    game.play_game(num_rounds, moves)
     print("\nFinal HP:", game.health)
     print("Final State:")
     game.print_grid()
 
     # Output the properly formatted game results to the output file
-    game.output_to_file("output.txt")
+    game.output_to_file("output.txt", moves)

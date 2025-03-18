@@ -1,7 +1,7 @@
-FFSSSSFSFF
-10
-#S S  #
-#S  SS#
-#S  S #
-#S   S#
-#  T  #
+FDFSFAGAAD
+16
+#  S S#
+#  S  #
+#   SS#
+#    S#
+#    X#
