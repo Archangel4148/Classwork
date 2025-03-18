@@ -1,7 +1,7 @@
-DSGAGAGFDS
-4
+ADGFADFADD
+6
+#S S  #
+#S  SS#
+#S  S #
 #S   S#
-#S    #
-#  S S#
-#  S  #
-#   X #
+#X    #
