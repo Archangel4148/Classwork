@@ -88,20 +88,23 @@ class ToadGame:
 
 
 if __name__ == '__main__':
+    # Read the game state information from the input file
     with open("input.txt", "r") as f:
         input_data = f.readlines()
-
     num_rounds = int(input_data[0].strip())
     rolls = [int(d.strip()) for d in input_data[1:]]
 
+    # Give the move plan
     moves = "FFSSSSFSFF"
 
     # Create a toad game object
     game = ToadGame(rolls, moves, 20)
 
-    # Run the game (max rounds = 10)
-    game.play_game(10)
+    # Run the game and print the results
+    game.play_game(num_rounds)
     print("\nFinal HP:", game.health)
     print("Final State:")
     game.print_grid()
+
+    # Output the properly formatted game results to the output file
     game.output_to_file("output.txt")
