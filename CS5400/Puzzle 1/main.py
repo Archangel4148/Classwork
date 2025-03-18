@@ -6,7 +6,7 @@ class ToadGame:
 
         # Set up initial grid
         self.grid = ["#     #"] * 5
-        self.grid[4] = self.grid[4][:starting_position] + "T" + self.grid[4][(starting_position + 1):]
+        self.grid[-1] = self.grid[-1][:starting_position] + "T" + self.grid[4][(starting_position + 1):]
 
         # Parse states into grid rows
         self.states = [self.state_from_roll(roll) for roll in rolls]
@@ -27,7 +27,7 @@ class ToadGame:
         else:
             return "INVALID"
 
-    def move_frog(self, input: str):
+    def move_toad(self, input: str):
         toad_pos = self.grid[-1].index("T")
         if input == "A":
             toad_pos -= 2
@@ -42,7 +42,7 @@ class ToadGame:
             toad_pos += 2
             self.health -= 3
         if not 1 <= toad_pos <= 5:
-            raise ValueError(f"Invalid frog position: {toad_pos}")
+            raise ValueError(f"Invalid toad position: {toad_pos}")
 
         self.grid[-1] = f"#{' ' * (toad_pos - 1)}T{' ' * (5 - toad_pos)}#"
 
@@ -64,7 +64,7 @@ class ToadGame:
         while self.health > 0 and round < max_length:
             # Phase 1 - Toad moves
             print("MOVE:", self.moves[round])
-            self.move_frog(self.moves[round])
+            self.move_toad(self.moves[round])
             # Phase 2/3/4 - Spawn new row (also moves snakes/flies)
             snake_death = self.shift_grid(self.states[round])
             if snake_death:
