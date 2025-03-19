@@ -3,7 +3,7 @@ import sys
 
 
 class ToadGame:
-    def __init__(self, rolls: list[int], health: int, starting_position: int = 3):
+    def __init__(self, rolls, health: int, starting_position: int = 3):
         self.rolls = rolls
         self.health = health
 
@@ -95,7 +95,7 @@ class ToadGame:
                 f.write(row + "\n")
 
 
-def generate_plan(states: list[str], plan_length: int, starting_health: int, starting_position: int = 3) -> str:
+def generate_plan(states, plan_length: int, starting_health: int, starting_position: int = 3) -> str:
     """
     Generate a plan (string of moves) based on the game state
     (For now, this just generates a random series of moves that don't kill the toad or take it out of bounds)

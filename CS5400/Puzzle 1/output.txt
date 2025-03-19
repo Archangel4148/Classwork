@@ -1,7 +1,7 @@
-ADGFADFADD
-6
-#S S  #
-#S  SS#
-#S  S #
-#S   S#
-#X    #
+GSDDFDAGSS
+15
+#  S S#
+#  S  #
+#   SS#
+#    S#
+#    X#
