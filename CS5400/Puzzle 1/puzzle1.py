@@ -125,7 +125,6 @@ def generate_plan(states, plan_length: int, starting_health: int, starting_posit
 
 
 if __name__ == '__main__':
-    print("SYS ARGS:", sys.argv)
     if len(sys.argv) == 3:
         input_file = sys.argv[1]
         output_file = sys.argv[2]
@@ -136,7 +135,7 @@ if __name__ == '__main__':
         output_file = "output.txt"
 
     # Read the game state stuff from the input file
-    with open("input.txt", "r") as f:
+    with open(input_file, "r") as f:
         input_data = f.readlines()
     num_rounds = int(input_data[0].strip())
     rolls = [int(d.strip()) for d in input_data[1:]]
@@ -155,4 +154,4 @@ if __name__ == '__main__':
     game.print_grid()
 
     # Output the properly formatted game results to the output file
-    game.output_to_file("output.txt", moves)
+    game.output_to_file(output_file, moves)
