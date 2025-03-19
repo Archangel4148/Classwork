@@ -125,6 +125,7 @@ def generate_plan(states, plan_length: int, starting_health: int, starting_posit
 
 
 if __name__ == '__main__':
+    print("SYS ARGS:", sys.argv)
     if len(sys.argv) == 3:
         input_file = sys.argv[1]
         output_file = sys.argv[2]
