@@ -1,3 +1,8 @@
+########################################
+# Submission by Simon Edmunds
+# Student ID: 12590227
+########################################
+
 import random
 import sys
 
@@ -67,7 +72,8 @@ class ToadGame:
 
     def play_game(self, max_length: int, moves: str, result_filename: str = "output.txt"):
         round = 0
-        while self.health > 0 and round < max_length:
+        cutoff_round = min(max_length, len(moves))
+        while self.health > 0 and round < cutoff_round:
             # Phase 1 - Toad moves
             print("MOVE:", moves[round])
             self.move_toad(moves[round])

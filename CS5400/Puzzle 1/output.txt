@@ -1,7 +1,7 @@
-GSDDFDAGSS
-15
+DDDDDDDD
+20
+#S  S #
+#S   S#
+#S    #
 #  S S#
-#  S  #
-#   SS#
-#    S#
-#    X#
+#  X  #
