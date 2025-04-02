@@ -45,33 +45,8 @@ def random_plan(initial_state: GameState) -> str:
     return plan
 
 
-def bfs_find_best_plan(max_length, starting_health, starting_position=3):
-    # States look like: (toad_position, health, move_sequence, turn)
-    queue = deque([(starting_position, starting_health, "", 0)])
-    visited = set()  # Visited states
-
-    while queue:
-        pos, health, moves, turn = queue.popleft()
-
-        # If we reach the last turn successfully, return the move sequence
-        if turn == max_length:
-            return moves
-
-        if (pos, health, turn) in visited:
-            continue
-        visited.add((pos, health, turn))
-
-        # Try all valid moves
-        for move, travel in MOVE_DISTANCES.items():
-            new_pos = pos + travel
-            new_health = health - HEALTH_COSTS[move]
-
-            # If move is valid, add it
-            if 1 <= new_pos <= 5 and new_health > 0:
-                new_moves = moves + move
-                queue.append((new_pos, new_health, new_moves, turn + 1))
-
-    return ""  # No valid path found
+def bfs_find_best_plan(initial_state: GameState, goal_func):
+    pass
 
 
 if __name__ == '__main__':
@@ -103,7 +78,8 @@ if __name__ == '__main__':
     # Run the game and print the results
     final_state = transition(initial_state, moves)
 
-    print("\nFinal HP:", final_state.health)
+    print("\nMoves:", moves)
+    print("Final HP:", final_state.health)
     print("Final State:\n" + str(final_state))
 
     # Output the properly formatted game results to the output file
