@@ -65,7 +65,7 @@ def bfs_find_best_plan(initial_state: GameState, goal_func):
         p = frontier.popleft()
         sk = transition(initial_state, p)
         sk_hashable = sk.to_hashable()
-        if len(p) == len(initial_state.rolls) and goal_func(sk):
+        if len(p) >= 8 and goal_func(sk):
             return p
 
         # Don't repeat for already visited stuff
