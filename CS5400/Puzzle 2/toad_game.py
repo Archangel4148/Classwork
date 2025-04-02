@@ -17,6 +17,9 @@ class GameState:
             for row in self.grid:
                 f.write(row + "\n")
 
+    def to_hashable(self):
+        return tuple(self.grid), self.health, tuple(self.rolls)
+
 
 #     def output_to_file(self, file_name: str, moves: str):
 #         with open(file_name, "w") as f:
