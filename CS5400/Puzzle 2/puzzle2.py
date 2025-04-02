@@ -66,7 +66,6 @@ def bfs_find_best_plan(initial_state: GameState, goal_func):
         sk = transition(initial_state, p)
         sk_hashable = sk.to_hashable()
         if len(p) == len(initial_state.rolls) and goal_func(sk):
-            print("Final Plan:", p)
             return p
 
         # Don't repeat for already visited stuff
@@ -77,6 +76,7 @@ def bfs_find_best_plan(initial_state: GameState, goal_func):
         # Add "neighbors" to the frontier
         for valid_move in get_valid_moves(sk):
             frontier.append(p + valid_move)
+
     return None
 
 
@@ -86,7 +86,7 @@ if __name__ == '__main__':
         output_file = sys.argv[2]
     else:
         # Default paths (none provided)
-        # print("No filenames provided, using \'input.txt\' and \'output.txt\'...")
+        print("No filenames provided, using \'input.txt\' and \'output.txt\'...")
         input_file = "input.txt"
         output_file = "output.txt"
 
@@ -103,15 +103,15 @@ if __name__ == '__main__':
         rolls=rolls,
     )
 
-    # Create a move plan
+    # Create a move plan using BFS (10 moves)
     moves = bfs_find_best_plan(initial_state, goal)
 
     # Run the game and print the results
     final_state = transition(initial_state, moves)
 
-    # print("\nMoves:", moves)
-    # print("Final HP:", final_state.health)
-    # print("Final State:\n" + str(final_state))
+    print("\nMoves:", moves)
+    print("Final HP:", final_state.health)
+    print("Final State:\n" + str(final_state))
 
     # Output the properly formatted game results to the output file
     final_state.export(output_file, moves)
