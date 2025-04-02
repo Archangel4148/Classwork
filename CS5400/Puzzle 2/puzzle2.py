@@ -107,7 +107,7 @@ if __name__ == '__main__':
     moves = bfs_find_best_plan(initial_state, goal)
 
     # Run the game and print the results
-    final_state = transition(initial_state, moves)
+    final_state = transition(initial_state, moves, print_steps=True)
 
     print("\nMoves:", moves)
     print("Final HP:", final_state.health)

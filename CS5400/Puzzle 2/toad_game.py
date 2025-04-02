@@ -40,7 +40,7 @@ def state_from_roll(roll: int) -> str:
         return "INVALID"
 
 
-def transition(state: GameState, moves: str) -> GameState:
+def transition(state: GameState, moves: str, print_steps: bool = False) -> GameState:
     move_distances = {"A": -2, "S": -1, "D": 0, "F": 1, "G": 2}
     health_costs = {"A": 3, "S": 1, "D": 0, "F": 1, "G": 3}
     grid = state.grid.copy()
@@ -49,6 +49,8 @@ def transition(state: GameState, moves: str) -> GameState:
     rolls = state.rolls
 
     for i, move in enumerate(moves):
+        if print_steps:
+            print("\n".join(grid), "\n")
         position += move_distances[move]
         health -= health_costs[move]
         if not (1 <= position <= 5):

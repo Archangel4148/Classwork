@@ -1,7 +1,7 @@
-ADDDDDDDDF
-16
-#S S  #
-#S  SS#
+ADDDDDDD
+17
 #S  S #
 #S   S#
-# T   #
+#S    #
+#  S S#
+#T    #
