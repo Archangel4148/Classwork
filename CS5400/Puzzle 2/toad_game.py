@@ -3,9 +3,9 @@ from dataclasses import dataclass
 
 @dataclass
 class GameState:
-    grid: list[str]
+    grid: list
     health: int
-    rolls: list[int]
+    rolls: list
 
     def __str__(self):
         return "\n".join(self.grid) + "\n"
