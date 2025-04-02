@@ -21,14 +21,6 @@ class GameState:
         return tuple(self.grid), self.health, tuple(self.rolls)
 
 
-#     def output_to_file(self, file_name: str, moves: str):
-#         with open(file_name, "w") as f:
-#             f.write(moves + "\n")
-#             f.write(str(self.health) + "\n")
-#             for row in self.grid:
-#                 f.write(row + "\n")
-
-
 def state_from_roll(roll: int) -> str:
     if roll == 32:
         return "F     #"
