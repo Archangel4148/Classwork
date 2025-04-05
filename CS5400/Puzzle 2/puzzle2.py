@@ -57,7 +57,7 @@ def random_plan(initial_state: GameState) -> str:
     return plan
 
 
-def bfs_find_best_plan(initial_state: GameState, goal_func):
+def bfs_find_best_plan(initial_state: GameState, goal_func, game_length: int):
     frontier = deque([""])
     already_visited = set()
 
@@ -65,7 +65,7 @@ def bfs_find_best_plan(initial_state: GameState, goal_func):
         p = frontier.popleft()
         sk = transition(initial_state, p)
         sk_hashable = sk.to_hashable()
-        if len(p) >= 8 and goal_func(sk):
+        if len(p) >= game_length and goal_func(sk):
             return p
 
         # Don't repeat for already visited stuff
@@ -92,7 +92,7 @@ if __name__ == '__main__':
 
     # Read the rolls from the input file
     with open(input_file, "r") as f:
-        input_data = f.readlines()
+        input_data = [line for line in f.readlines() if line.strip()]
     num_rounds = int(input_data[0].strip())
     rolls = [int(d.strip()) for d in input_data[1:]]
 
@@ -103,8 +103,11 @@ if __name__ == '__main__':
         rolls=rolls,
     )
 
-    # Create a move plan using BFS (10 moves)
-    moves = bfs_find_best_plan(initial_state, goal)
+    # The game will end either after 8 rounds, or when we run out of rolls
+    game_length = min(8, num_rounds)
+
+    # Create a move plan using BFS
+    moves = bfs_find_best_plan(initial_state, goal, game_length)
 
     # Run the game and print the results
     final_state = transition(initial_state, moves, print_steps=True)
