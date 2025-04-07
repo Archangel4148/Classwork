@@ -42,6 +42,8 @@ def transition(state: GameState, moves: str, print_steps: bool = False) -> GameS
 
     for i, move in enumerate(moves):
         if print_steps:
+            print("HP:", health)
+            print("Move:", move)
             print("\n".join(grid), "\n")
         position += move_distances[move]
         health -= health_costs[move]
@@ -72,7 +74,7 @@ if __name__ == '__main__':
         "#  T  #",
     ]
 
-    with open("inputs/input.txt", "r") as f:
+    with open("inputs/input1.txt", "r") as f:
         rolls = [int(r) for r in f.readlines()[1:]]
 
     initial_state = GameState(
