@@ -80,15 +80,19 @@ def bfs_find_best_plan(initial_state: GameState, goal_func, game_length: int):
     return None
 
 
+def iterative_deepening_find_best_plan(initial_state: GameState, goal_func, game_length: int):
+    return "D" * game_length
+
+
 if __name__ == '__main__':
     if len(sys.argv) == 3:
         input_file = sys.argv[1]
         output_file = sys.argv[2]
     else:
         # Default paths (none provided)
-        print("No filenames provided, using \'input.txt\' and \'output.txt\'...")
-        input_file = "input.txt"
+        input_file = "inputs/input.txt"
         output_file = "output.txt"
+        print(f"No filenames provided, using \'{input_file}\' and \'{output_file}\'...")
 
     # Read the rolls from the input file
     with open(input_file, "r") as f:
@@ -103,11 +107,11 @@ if __name__ == '__main__':
         rolls=rolls,
     )
 
-    # The game will end either after 8 rounds, or when we run out of rolls
-    game_length = min(8, num_rounds)
+    # The game will end either after 15 rounds, or when we run out of rolls
+    game_length = min(15, num_rounds)
 
     # Create a move plan using BFS
-    moves = bfs_find_best_plan(initial_state, goal, game_length)
+    moves = iterative_deepening_find_best_plan(initial_state, goal, game_length)
 
     # Run the game and print the results
     final_state = transition(initial_state, moves, print_steps=True)

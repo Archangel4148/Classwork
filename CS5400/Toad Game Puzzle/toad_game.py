@@ -72,7 +72,7 @@ if __name__ == '__main__':
         "#  T  #",
     ]
 
-    with open("input.txt", "r") as f:
+    with open("inputs/input.txt", "r") as f:
         rolls = [int(r) for r in f.readlines()[1:]]
 
     initial_state = GameState(

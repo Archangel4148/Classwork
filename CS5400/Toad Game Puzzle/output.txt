@@ -1,7 +1,7 @@
-ADDDDDDD
-17
+DDDDDDDDDD
+20
 #S  S #
 #S   S#
 #S    #
 #  S S#
-#T    #
+#  X  #
