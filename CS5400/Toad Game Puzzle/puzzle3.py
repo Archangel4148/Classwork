@@ -159,12 +159,10 @@ if __name__ == '__main__':
     else:
         # Default paths (none provided)
         input_file = "inputs/input1.txt"
-        output_file = "outputs/output.txt"
+        output_file = "outputs/output1.txt"
         print(f"No filenames provided, using \'{input_file}\' and \'{output_file}\'...")
 
-    test_cases = [
-
-    ]
+    goal_length = 16
 
     # for i in range(1, 7):
     #     input_file = f"inputs/input{i}.txt"
@@ -175,7 +173,7 @@ if __name__ == '__main__':
     #         run_game_from_file(
     #             input_path=input_file,
     #             output_path=output_file,
-    #             max_length=50,
+    #             max_length=goal_length,
     #             plan_func=iterative_deepening_find_best_plan,
     #             show_steps=False
     #         )
@@ -183,8 +181,4 @@ if __name__ == '__main__':
     #         print(f"Error running {input_file}: {e}")
 
     # Run the game
-    filenum = 6
-    max_length = 25
-    input_file = f"inputs/input{filenum}.txt"
-    output_file = f"outputs/output{filenum}.txt"
-    run_game_from_file(input_file, output_file, max_length, iterative_deepening_find_best_plan, show_steps=True)
+    run_game_from_file(input_file, output_file, goal_length, iterative_deepening_find_best_plan, show_steps=True)
