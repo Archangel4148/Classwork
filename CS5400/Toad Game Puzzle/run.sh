@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 puzzle3.py $1 $2
+python3 puzzle4.py $1 $2

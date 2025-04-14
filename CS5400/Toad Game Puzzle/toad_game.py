@@ -62,33 +62,3 @@ def transition(state: GameState, moves: str, print_steps: bool = False) -> GameS
                 health += 5
         grid[-1] = f"#{' ' * (position - 1)}T{' ' * (5 - position)}#"
     return GameState(grid=grid, health=health, rolls=rolls)
-
-
-if __name__ == '__main__':
-    starting_position = 3
-    empty_grid = [
-        "#     #",
-        "#     #",
-        "#     #",
-        "#     #",
-        "#  T  #",
-    ]
-
-    with open("inputs/input1.txt", "r") as f:
-        rolls = [int(r) for r in f.readlines()[1:]]
-
-    initial_state = GameState(
-        grid=empty_grid,
-        health=20,
-        rolls=rolls,
-    )
-    moves = "FFSSSSFSFF"
-    final_state = transition(initial_state, moves)
-
-    print("Input State:")
-    print(initial_state)
-    print("\nFinal State")
-    print(final_state)
-    print("HP:", final_state.health)
-
-    final_state.export("output.txt", moves)

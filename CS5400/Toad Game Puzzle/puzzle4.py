@@ -2,7 +2,7 @@
 # Submission by Simon Edmunds
 # Student ID: 12590227
 ########################################
-
+import heapq
 import random
 import sys
 from collections import deque
@@ -64,14 +64,14 @@ def bfs_find_best_plan(initial_state: GameState, goal_func, game_length: int):
     while frontier:
         p = frontier.popleft()
         sk = transition(initial_state, p)
-        sk_hashable = sk.to_hashable()
+        state_key = (sk.to_hashable(), len(p))
         if len(p) >= game_length and goal_func(sk):
             return p
 
         # Don't repeat for already visited stuff
-        if sk_hashable in already_visited:
+        if state_key in already_visited:
             continue
-        already_visited.add(sk_hashable)
+        already_visited.add(state_key)
 
         # Add "neighbors" to the frontier
         for valid_move in get_valid_moves(sk):
@@ -88,12 +88,12 @@ def bounded_dfs(initial_state: GameState, goal_func, game_length, depth_limit: i
     while frontier:
         p = frontier.pop()
         sk = transition(initial_state, p)
-        state_hash = sk.to_hashable()
+        state_key = (sk.to_hashable(), len(p))
 
         # Don't revisit states (speeds stuff up quite a bit)
-        if state_hash in visited_states:
+        if state_key in visited_states:
             continue
-        visited_states.add(state_hash)
+        visited_states.add(state_key)
 
         if len(p) == depth_limit:
             # If the path is the correct length, and the toad is alive, it's a winner!
@@ -120,7 +120,56 @@ def iterative_deepening_find_best_plan(initial_state: GameState, goal_func, game
         depth += 1
 
 
-def run_game_from_file(input_path: str, output_path: str, max_length: int, plan_func: callable,
+def cost(moves: str) -> int:
+    # Sum the costs of the moves so far
+    move_costs = {"A": 3, "S": 1, "D": 0, "F": 1, "G": 3}
+    return sum(move_costs[m] for m in moves)
+
+
+def heuristic(state: GameState, moves: str) -> int:
+    # Number of moves needed to win the game
+    moves_to_goal = len(state.rolls) - len(moves)
+
+    # Assume around 1 damage per move
+    estimated_damage_per_move = 1
+    expected_damage = estimated_damage_per_move * moves_to_goal
+
+    # This will make the heuristic prefer moves that result in less damage
+    return expected_damage - state.health
+
+
+def a_star_find_plan(initial_state: GameState, goal_func, game_length: int):
+    """
+    NOTE: Because of my heuristic, this is not guaranteed to find the best plan
+    (There are some cases where my heuristic will overestimate)
+    """
+    frontier = []  # Use a priority queue
+    visited_states = set()
+
+    # Each entry is (priority, path)
+    heapq.heappush(frontier, (cost("") + heuristic(initial_state, ""), ""))
+    while frontier:
+        _, p = heapq.heappop(frontier)
+        sk = transition(initial_state, p)
+
+        # Don't revisit states (speeds stuff up quite a bit)
+        state_key = (sk.to_hashable(), len(p))
+        if state_key in visited_states:
+            continue
+        visited_states.add(state_key)
+
+        # Check for a winner
+        if len(p) >= game_length and goal_func(sk):
+            return p
+
+        for valid_move in get_valid_moves(sk):
+            px = p + valid_move
+            sx = transition(initial_state, px)
+            # Add each possible path to the frontier with priority: cost + heuristic
+            heapq.heappush(frontier, (cost(px) + heuristic(sx, px), px))
+
+
+def run_game_from_file(input_path: str, output_path: str, max_length: int | None, plan_func: callable,
                        show_steps: bool = False):
     # Read the rolls from the input file
     with open(input_path, "r") as f:
@@ -136,7 +185,10 @@ def run_game_from_file(input_path: str, output_path: str, max_length: int, plan_
     )
 
     # The game will end either after 15 rounds, or when we run out of rolls
-    game_length = min(max_length, num_rounds)
+    if max_length is None:
+        game_length = num_rounds
+    else:
+        game_length = min(max_length, num_rounds)
 
     # Create a move plan using Iterative Deepening DFS
     moves = plan_func(initial_state, goal, game_length)
@@ -162,9 +214,10 @@ if __name__ == '__main__':
         output_file = "outputs/output1.txt"
         print(f"No filenames provided, using \'{input_file}\' and \'{output_file}\'...")
 
-    goal_length = 16
+    goal_length = None
 
-    # for i in range(1, 7):
+    # # Run for all input examples (for testing)
+    # for i in range(1, 10):
     #     input_file = f"inputs/input{i}.txt"
     #     output_file = f"outputs/output{i}.txt"
     #
@@ -174,11 +227,11 @@ if __name__ == '__main__':
     #             input_path=input_file,
     #             output_path=output_file,
     #             max_length=goal_length,
-    #             plan_func=iterative_deepening_find_best_plan,
+    #             plan_func=a_star_find_plan,
     #             show_steps=False
     #         )
     #     except Exception as e:
     #         print(f"Error running {input_file}: {e}")
 
     # Run the game
-    run_game_from_file(input_file, output_file, goal_length, iterative_deepening_find_best_plan, show_steps=True)
+    run_game_from_file(input_file, output_file, goal_length, a_star_find_plan, show_steps=True)
