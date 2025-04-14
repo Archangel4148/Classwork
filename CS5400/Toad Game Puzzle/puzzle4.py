@@ -169,7 +169,7 @@ def a_star_find_plan(initial_state: GameState, goal_func, game_length: int):
             heapq.heappush(frontier, (cost(px) + heuristic(sx, px), px))
 
 
-def run_game_from_file(input_path: str, output_path: str, max_length: int | None, plan_func: callable,
+def run_game_from_file(input_path: str, output_path: str, max_length, plan_func: callable,
                        show_steps: bool = False):
     # Read the rolls from the input file
     with open(input_path, "r") as f:
