@@ -101,10 +101,9 @@ class ToadGame:
                 f.write(row + "\n")
 
 
-def generate_plan(states, plan_length: int, starting_health: int, starting_position: int = 3) -> str:
+def random_plan(states, plan_length: int, starting_health: int, starting_position: int = 3) -> str:
     """
-    Generate a plan (string of moves) based on the game state
-    (For now, this just generates a random series of moves that don't kill the toad or take it out of bounds)
+    Generate a random plan (string of moves) based on the game state
     """
     toad_pos = starting_position
     health = starting_health
@@ -137,18 +136,18 @@ if __name__ == '__main__':
     else:
         # Default paths (none provided)
         print("No filenames provided, using \'input.txt\' and \'output.txt\'...")
-        input_file = "input.txt"
+        input_file = "inputs/input1.txt"
         output_file = "output.txt"
 
     # Read the game state stuff from the input file
     with open(input_file, "r") as f:
-        input_data = f.readlines()
+        input_data = [line for line in f.readlines() if line.strip()]
     num_rounds = int(input_data[0].strip())
     rolls = [int(d.strip()) for d in input_data[1:]]
 
     # Create a move plan
     states = [ToadGame.state_from_roll(roll) for roll in rolls]
-    moves = generate_plan(states, num_rounds, 20)
+    moves = random_plan(states, num_rounds, 20)
 
     # Create a toad game object
     game = ToadGame(rolls, 20)
