@@ -16,7 +16,7 @@ if [ ! -x "$SCRIPT" ]; then
 fi
 
 # List of arguments to use
-ARGS=("sample_inputs/input1.txt" "sample_inputs/input2.txt" "sample_inputs/input3.txt" "sample_inputs/input4.txt" "sample_inputs/input5.txt" "sample_inputs/input6.txt" "sample_inputs/input7.txt" "sample_inputs/input8.txt" "sample_inputs/input9.txt" "sample_inputs/input_100.txt")
+ARGS=("../sample_inputs/input1.txt" "../sample_inputs/input2.txt" "../sample_inputs/input3.txt" "../sample_inputs/input4.txt" "../sample_inputs/input5.txt" "../sample_inputs/input6.txt" "../sample_inputs/input7.txt" "../sample_inputs/input8.txt" "../sample_inputs/input9.txt" "../sample_inputs/input_100.txt")
 
 # Run the script with each argument
 for ARG in "${ARGS[@]}"; do
