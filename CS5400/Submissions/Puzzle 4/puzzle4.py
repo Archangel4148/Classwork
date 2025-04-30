@@ -210,15 +210,15 @@ if __name__ == '__main__':
         output_file = sys.argv[2]
     else:
         # Default paths (none provided)
-        input_file = "inputs/input1.txt"
-        output_file = "outputs/output1.txt"
+        input_file = "input.txt"
+        output_file = "output.txt"
         print(f"No filenames provided, using \'{input_file}\' and \'{output_file}\'...")
 
     goal_length = None
 
     # # Run for all input examples (for testing)
     # for i in range(1, 10):
-    #     input_file = f"inputs/input{i}.txt"
+    #     input_file = f"sample_inputs/input{i}.txt"
     #     output_file = f"outputs/output{i}.txt"
     #
     #     print(f"\n=== Running {input_file} ===")
