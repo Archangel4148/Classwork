@@ -136,7 +136,7 @@ if __name__ == '__main__':
     else:
         # Default paths (none provided)
         print("No filenames provided, using \'input.txt\' and \'output.txt\'...")
-        input_file = "inputs/input1.txt"
+        input_file = "../inputs/input1.txt"
         output_file = "output.txt"
 
     # Read the game state stuff from the input file
