@@ -216,22 +216,5 @@ if __name__ == '__main__':
 
     goal_length = None
 
-    # # Run for all input examples (for testing)
-    # for i in range(1, 10):
-    #     input_file = f"inputs/input{i}.txt"
-    #     output_file = f"outputs/output{i}.txt"
-    #
-    #     print(f"\n=== Running {input_file} ===")
-    #     try:
-    #         run_game_from_file(
-    #             input_path=input_file,
-    #             output_path=output_file,
-    #             max_length=goal_length,
-    #             plan_func=a_star_find_plan,
-    #             show_steps=False
-    #         )
-    #     except Exception as e:
-    #         print(f"Error running {input_file}: {e}")
-
     # Run the game
     run_game_from_file(input_file, output_file, goal_length, a_star_find_plan, show_steps=True)
