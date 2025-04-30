@@ -20,5 +20,8 @@ ARGS=("sample_inputs/input1.txt" "sample_inputs/input2.txt" "sample_inputs/input
 
 # Run the script with each argument
 for ARG in "${ARGS[@]}"; do
-    "$SCRIPT" "$ARG" output.txt
+    (
+        cd "$FOLDER" || exit
+        ./run.sh "$ARG" output.txt
+    )
 done
