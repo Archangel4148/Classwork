@@ -10,8 +10,7 @@ set NOTEBOOK=%~1
 
 jupyter nbconvert "%NOTEBOOK%" ^
     --to pdf ^
-    --TemplateExporter.exclude_markdown=True ^
-    --PDFExporter.latex_command=xelatex
+    --TemplateExporter.exclude_markdown=True
 
 if errorlevel 1 (
     echo Export failed.
