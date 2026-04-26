@@ -1,3 +1,6 @@
+# Simon Edmunds
+# 12590227
+
 import numpy as np
 # not allowed to import any other libraries.
 
